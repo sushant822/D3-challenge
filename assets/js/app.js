@@ -4,7 +4,7 @@
 //var dataArray = [1, 2, 3];
 //var dataCategories = ["one", "two", "three"];
 
-/*d3.csv("assets/data/data.csv").then (data => {
+d3.csv("assets/data/data.csv").then (data => {
     var dataCategories = data.map(data => data.poverty);
     //data.forEach(data => console.log(`Poverty: ${data.poverty}`));
 
