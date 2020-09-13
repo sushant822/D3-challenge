@@ -62,23 +62,59 @@ function yScale(csvData, shodenYAxis) {
 }
 
 // function used for updating xAxis var upon click on axis label
-function renderAxes(newXScale, xAxis) {
+function renderXAxes(newXScale, xAxis) {
   var bottomAxis = d3.axisBottom(newXScale);
+ 
   xAxis.transition()
-    .duration(2000)
+    .duration(1000)
     .call(bottomAxis);
+
   return xAxis;
+}
+
+function renderYAxes(newYScale, yAxis) {
+  var lrftAxis = d3.axisLeft(newYScale);
+
+  yAxis.transition()
+    .duration(1000)
+    .call(leftAxis);
+
+  return yAxis;
 }
 
 // function used for updating circles group with a transition to
 // new circles
-function renderCircles(circlesGroup, newXScale, chosenXAxis) {
+function renderCircles(circlesGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
 
   circlesGroup.transition()
     .duration(1000)
-    .attr("cx", d => newXScale(d[chosenXAxis]));
+    .attr("cx", d => newXScale(d[chosenXAxis]))
+    .attr("cy", d => newYScale(d[chosenYAxis]));
 
-  return circlesGroup;
+  return textGroup;
+}
+
+function renderText(textGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
+
+  textGroup.transition()
+    .duration(1000)
+    .attr("cx", d => newXScale(d[chosenXAxis]))
+    .attr("cy", d => newYScale(d[chosenYAxis]));
+  
+    return renderText;
+}
+
+function styleX(value, chosenXAxis) {
+
+  if (chosenXAxis === 'poverty') {
+      return `${value}%`;
+  }
+  else if (chosenXAxis === 'income') {
+      return `${value}`;
+  }
+  else {
+    return `${value}`;
+  }
 }
 
 // function used for updating circles group with new tooltip
@@ -210,7 +246,7 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
         xLinearScale = xScale(csvData, chosenXAxis);
 
         // updates x axis with transition
-        xAxis = renderAxes(xLinearScale, xAxis);
+        xAxis = renderXAxes(xLinearScale, xAxis);
 
         // updates circles with new x values
         circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
