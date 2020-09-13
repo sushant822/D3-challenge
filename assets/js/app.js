@@ -118,25 +118,37 @@ function styleX(value, chosenXAxis) {
 }
 
 // function used for updating circles group with new tooltip
-function updateToolTip(chosenXAxis, circlesGroup) {
+function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
-  var label;
+  var xlabel;
+  var ylabel;
 
   if (chosenXAxis === "poverty") {
-    label = "Poverty:";
+    xlabel = "Poverty:";
   }
   else if (chosenXAxis === "income") {
-    label = "Income:";
+    xlabel = "Income:";
   }
   else {
-    label = "Age:";
+    xlabel = "Age:";
+  }
+
+  // Y axis lables
+  if (chosenYAxis === "healthcare") {
+    ylabel = "Healthcare:";
+  }
+  else if (chosenYAxis === "obesity") {
+    ylabel = "Obesity:";
+  }
+  else {
+    ylabel = "Smokers:";
   }
 
   var toolTip = d3.tip()
-    .attr("class", "tooltip")
+    .attr("class", "d3-tip")
     .offset([80, -60])
     .html(function(d) {
-      return (`${d.state}<br>${label} ${d[chosenXAxis]}`);
+      return (`${d.state}<br>${xlabel} ${styleX(d[chosenXAxis], chosenXAxis)}<br>${d[chosenYAxis]}`);
     });
 
   circlesGroup.call(toolTip);
