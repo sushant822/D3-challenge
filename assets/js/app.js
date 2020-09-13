@@ -125,24 +125,24 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
   // X axis lables
   if (chosenXAxis === "poverty") {
-    xlabel = "Poverty:";
+    xlabel = "In Poverty (%):";
   }
   else if (chosenXAxis === "income") {
-    xlabel = "Income:";
+    xlabel = "Household Income (Median):";
   }
   else {
-    xlabel = "Age:";
+    xlabel = "Age (Median):";
   }
 
   // Y axis lables
   if (chosenYAxis === "healthcare") {
-    ylabel = "Healthcare:";
+    ylabel = "Lacks Healthcare (%):";
   }
   else if (chosenYAxis === "obesity") {
-    ylabel = "Obesity:";
+    ylabel = "Obese (%):";
   }
   else {
-    ylabel = "Smokers:";
+    ylabel = "Smokes (%):";
   }
 
   // Create tooltip
@@ -208,8 +208,8 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
     .classed("stateCircle", true)
     .attr("cx", d => xLinearScale(d[chosenXAxis]))
     .attr("cy", d => yLinearScale(d.healthcare))
-    .attr("r", 14)
-    .attr("opacity", ".5");
+    .attr("r", 8);
+    //.attr("opacity", ".5");
 
   // append initial text
   var textGroup = chartGroup.selectAll('.stateText')
@@ -220,7 +220,7 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
     .attr('x', d => xLinearScale(d[chosenXAxis]))
     .attr('y', d => yLinearScale(d[chosenYAxis]))
     .attr('dy', 3)
-    .attr('font-size', '10px')
+    .attr('font-size', '7px')
     .text(function(d){return d.abbr});
 
   // Create group for three x-axis labels
@@ -233,7 +233,7 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
     .attr("value", "poverty") // value to grab for event listener
     .classed("aText", true)
     .classed("active", true)
-    .text("Poverty");
+    .text("In Poverty (%");
 
   var ageLabel = xlabelsGroup.append("text")
     .attr("x", 0)
@@ -241,7 +241,7 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
     .attr("value", "age") // value to grab for event listener
     .classed("aText", true)
     .classed("inactive", true)
-    .text("Age");
+    .text("Age (Median)");
 
   var incomeLabel = xlabelsGroup.append("text")
     .attr("x", 0)
@@ -249,7 +249,7 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
     .attr("value", "income") // value to grab for event listener
     .classed("aText", true)
     .classed("inactive", true)
-    .text("Income");
+    .text("Household Income (Median)");
 
   // Create group for three y-axis labels
   var ylabelsGroup = chartGroup.append("g")
@@ -262,7 +262,7 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
     .attr("transform", "rotate(-90)")
     .classed("aText", true)
     .classed("active", true)
-    .text("Healthcare");
+    .text("Lacks Healthcare (%)");
 
   var smokesLabel = ylabelsGroup.append("text")
     .attr("x", 0)
@@ -271,7 +271,7 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
     .attr("transform", "rotate(-90)")
     .classed("aText", true)
     .classed("active", true)
-    .text("Smokes");
+    .text("Smokes (%)");
 
   var obesityLabel = ylabelsGroup.append("text")
     .attr("x", 0)
@@ -280,7 +280,7 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
     .attr("transform", "rotate(-90)")
     .classed("aText", true)
     .classed("active", true)
-    .text("Obesity");
+    .text("Obese (%)");
 
   // updateToolTip function above csv import
   var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
