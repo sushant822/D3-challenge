@@ -273,6 +273,24 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
     .classed("active", true)
     .text("Healthcare");
 
+  var smokesLabel = ylabelsGroup.append("text")
+    .attr("x", 0)
+    .attr("y", -40)
+    .attr("value", "smokes") // value to grab for event listener
+    .attr("transform", "rotate(-90")
+    .classed("aText", true)
+    .classed("active", true)
+    .text("Smokes");
+
+  var obesityLabel = ylabelsGroup.append("text")
+    .attr("x", 0)
+    .attr("y", -60)
+    .attr("value", "obesity") // value to grab for event listener
+    .attr("transform", "rotate(-90")
+    .classed("aText", true)
+    .classed("active", true)
+    .text("Obesity");
+
   /*
   chartGroup.append("text")
     .attr("transform", "rotate(-90)")
@@ -283,10 +301,10 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
     .text("Number of Billboard 500 Hits");*/
 
   // updateToolTip function above csv import
-  var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+  var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
 
   // x axis labels event listener
-  labelsGroup.selectAll("text")
+  xlabelsGroup.selectAll("text")
     .on("click", function() {
       // get value of selection
       var value = d3.select(this).attr("value");
@@ -305,19 +323,27 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
         xAxis = renderXAxes(xLinearScale, xAxis);
 
         // updates circles with new x values
-        circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
+        circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
 
         // updates tooltips with new info
-        circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+        circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+
+        textGroup = renderText(textGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
 
         // changes classes to change bold text
-        if (chosenXAxis === "income") {
-          albumsLabel
+        if (chosenXAxis === "poverty") {
+          povertyLabel
             .classed("active", true)
             .classed("inactive", false);
-          hairLengthLabel
+          ageLabel
             .classed("active", false)
             .classed("inactive", true);
+          incomeLabel
+            .classed("active", false)
+            .classed("inactive", true);
+        }
+        else if (chosenXAxis === "age") {
+          
         }
         else {
           albumsLabel
