@@ -39,6 +39,7 @@ var chartGroup = svg.append("g")
 
 // Initial Params
 var chosenXAxis = "poverty";
+var chosenYAxis = "healthcare";
 
 // function used for updating x-scale var upon click on axis label
 function xScale(csvData, chosenXAxis) {
@@ -48,10 +49,10 @@ function xScale(csvData, chosenXAxis) {
       d3.max(csvData, d => d[chosenXAxis]) * 1.2
     ])
     .range([0, width]);
-
   return xLinearScale;
-
 }
+
+
 
 // function used for updating xAxis var upon click on axis label
 function renderAxes(newXScale, xAxis) {
