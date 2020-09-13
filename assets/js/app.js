@@ -254,20 +254,33 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
 
   var incomeLabel = xlabelsGroup.append("text")
     .attr("x", 0)
-    .attr("y", 40)
+    .attr("y", 60)
     .attr("value", "income") // value to grab for event listener
     .classed("aText", true)
     .classed("inactive", true)
     .text("Income");
 
   // append y axis
+  var ylablesGroup = chartGroup.append("g")
+    .attr("transform", `translate(${0 - margin.left/4}, ${height/2})`);
+
+  var healthcareLabel = ylabelsGroup.append("text")
+    .attr("x", 0)
+    .attr("y", -20)
+    .attr("value", "healthcare") // value to grab for event listener
+    .attr("transform", "rotate(-90")
+    .classed("aText", true)
+    .classed("active", true)
+    .text("Healthcare");
+
+  /*
   chartGroup.append("text")
     .attr("transform", "rotate(-90)")
     .attr("y", 0 - margin.left)
     .attr("x", 0 - (height / 2))
     .attr("dy", "1em")
     .classed("axis-text", true)
-    .text("Number of Billboard 500 Hits");
+    .text("Number of Billboard 500 Hits");*/
 
   // updateToolTip function above csv import
   var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
