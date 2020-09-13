@@ -148,7 +148,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     .attr("class", "d3-tip")
     .offset([80, -60])
     .html(function(d) {
-      return (`${d.state}<br>${xlabel} ${styleX(d[chosenXAxis], chosenXAxis)}<br>${d[chosenYAxis]}`);
+      return (`${d.state}<br>${xlabel} ${styleX(d[chosenXAxis], chosenXAxis)}<br>${ylabel} ${d[chosenYAxis]}`);
     });
 
   circlesGroup.call(toolTip);
@@ -178,8 +178,8 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
     data.healthcare = +data.healthcare;
     data.income = +data.income;
     data.obesity = +data.obesity;
-    data.smokes += data.smokes;
-    data.age += data.age;
+    data.smokes = +data.smokes;
+    data.age = +data.age;
   });
 
   // xLinearScale function above csv import
