@@ -346,7 +346,7 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
         }
       }
     });
-
+/*
     ylabelsGroup.selectAll('text')
     .on('click', function() {
       var value = d3.select(this).attr('value');
@@ -405,8 +405,66 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
               .classed('inactive', false);
           }
         }
-      });
+      });*/
+    // y axis labels event listener
+    ylabelsGroup.selectAll("text")
+      .on("click", function() {
+        // get value of selection
+        var value = d3.select(this).attr("value");
+        if (value !== chosenYAxis) {
 
-}).catch(function(error) {
-  console.log(error);
+          // replaces chosenYAxis with value
+          chosenYAxis = value;
+
+          // updates y scale for new data
+          yLinearScale = yScale(csvData, chosenYAxis);
+
+          // updates y axis with transition
+          yAxis = renderYAxis(yLinearScale, yAxis);
+
+          // updates circles with new y values
+          circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
+
+          // updates tooltips with new info
+          circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+
+          // updates text with new y values
+          textGroup = renderText(textGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
+
+          // changes classes to change bold text
+          if (chosenYAxis === "healthcare") {
+            healthcareLabel
+              .classed("active", true)
+              .classed("inactive", false);
+            smokesLabel
+              .classed("active", false)
+              .classed("inactive", true);
+            obesityLabel
+              .classed("active", false)
+              .classed("inactive", true);
+          }
+          else if (chosenYAxis === "smokes") {
+            healthcareLabel
+              .classed("active", false)
+              .classed("inactive", true);
+            smokesLabel
+              .classed("active", true)
+              .classed("inactive", false);
+            obesityLabel
+              .classed("active", false)
+              .classed("inactive", true);
+          }
+          else {
+            healthcareLabel
+              .classed("active", false)
+              .classed("inactive", true);
+            smokesLabel
+              .classed("active", false)
+              .classed("inactive", true);
+            obesityLabel
+              .classed("active", true)
+              .classed("inactive", false);
+          }
+        }
+      });
 });
