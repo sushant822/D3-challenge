@@ -73,7 +73,7 @@ function renderXAxes(newXScale, xAxis) {
 }
 
 function renderYAxes(newYScale, yAxis) {
-  var lrftAxis = d3.axisLeft(newYScale);
+  var leftAxis = d3.axisLeft(newYScale);
 
   yAxis.transition()
     .duration(1000)
@@ -153,6 +153,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
   circlesGroup.call(toolTip);
 
+  
   circlesGroup.on("mouseover", function(data) {
     toolTip.show(data);
   })
@@ -160,6 +161,9 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     .on("mouseout", function(data, index) {
       toolTip.hide(data);
     });
+    /*
+    circlesGroup.on('mouseover', toolTip.show)
+      .on('mouseout', toolTip.hide);*/
 
   return circlesGroup;
 }
@@ -180,6 +184,7 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
 
   // xLinearScale function above csv import
   var xLinearScale = xScale(csvData, chosenXAxis);
+  //var yLinearScale = yScale(csvData, chosenYAxis);
 
   // Create y scale function
   var yLinearScale = d3.scaleLinear()
@@ -193,6 +198,11 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
   // append x axis
   var xAxis = chartGroup.append("g")
     .classed("x-axis", true)
+    .attr("transform", `translate(0, ${height})`)
+    .call(bottomAxis);
+
+  var yAxis = chartGroup.append("g")
+    .classed("y-axis", true)
     .attr("transform", `translate(0, ${height})`)
     .call(bottomAxis);
 
@@ -211,23 +221,44 @@ d3.csv("assets/data/data.csv").then(function(csvData, err) {
     .attr("r", 14)
     .attr("opacity", ".5");
 
+  var textGroup = chartGroup.selectAll('.stateText')
+    .data(censusData)
+    .enter()
+    .append('text')
+    .classed('stateText', true)
+    .attr('x', d => xLinearScale(d[chosenXAxis]))
+    .attr('y', d => yLinearScale(d[chosenYAxis]))
+    .attr('dy', 3)
+    .attr('font-size', '10px')
+    .text(function(d){return d.abbr});
+
   // Create group for two x-axis labels
-  var labelsGroup = chartGroup.append("g")
+  var xlabelsGroup = chartGroup.append("g")
     .attr("transform", `translate(${width / 2}, ${height + 20})`);
 
-  var hairLengthLabel = labelsGroup.append("text")
+  var povertyLabel = xlabelsGroup.append("text")
     .attr("x", 0)
     .attr("y", 20)
     .attr("value", "poverty") // value to grab for event listener
+    .classed("aText", true)
     .classed("active", true)
-    .text("Hair Metal Ban Hair Length (inches)");
+    .text("Poverty");
 
-  var albumsLabel = labelsGroup.append("text")
+  var ageLabel = xlabelsGroup.append("text")
+    .attr("x", 0)
+    .attr("y", 40)
+    .attr("value", "age") // value to grab for event listener
+    .classed("aText", true)
+    .classed("inactive", true)
+    .text("Age");
+
+  var incomeLabel = xlabelsGroup.append("text")
     .attr("x", 0)
     .attr("y", 40)
     .attr("value", "income") // value to grab for event listener
+    .classed("aText", true)
     .classed("inactive", true)
-    .text("# of Albums Released");
+    .text("Income");
 
   // append y axis
   chartGroup.append("text")
