@@ -52,16 +52,21 @@ function xScale(csvData, chosenXAxis) {
   return xLinearScale;
 }
 
-
+function yScale(csvData, shodenYAxis) {
+  var yLinearScale = d3.scaleLinear()
+    .domain([d3.min(csvData, d => d[chosenYaxis]) * 0.8,
+      d3.max(csvData, d => d[chosenYaxis]) * 1.2
+  ])
+    .range([height, 0]);
+  return yLinearScale;
+}
 
 // function used for updating xAxis var upon click on axis label
 function renderAxes(newXScale, xAxis) {
   var bottomAxis = d3.axisBottom(newXScale);
-
   xAxis.transition()
-    .duration(1000)
+    .duration(2000)
     .call(bottomAxis);
-
   return xAxis;
 }
 
