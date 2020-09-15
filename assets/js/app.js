@@ -281,7 +281,7 @@ d3.csv("assets/data/data.csv").then((csvData, err) => {
     .attr("value", "smokes") // value to grab for event listener
     .attr("transform", "rotate(-90)")
     .classed("aText", true)
-    .classed("active", true)
+    .classed("inactive", true)
     .text("Smokes (%)");
 
   var obesityLabel = ylabelsGroup.append("text")
@@ -290,7 +290,7 @@ d3.csv("assets/data/data.csv").then((csvData, err) => {
     .attr("value", "obesity") // value to grab for event listener
     .attr("transform", "rotate(-90)")
     .classed("aText", true)
-    .classed("active", true)
+    .classed("inactive", true)
     .text("Obese (%)");
 
   // updateToolTip function above csv import
