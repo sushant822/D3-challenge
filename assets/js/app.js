@@ -173,7 +173,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     toolTip.show(data);
   })
     // onmouseout event
-    .on("mouseout", function(data, index) {
+    .on("mouseout", (data, index) => {
       toolTip.hide(data);
     });
 
@@ -181,7 +181,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 }
 
 // Retrieve data from the CSV file and execute everything below
-d3.csv("assets/data/data.csv").then(function(csvData, err) {
+d3.csv("assets/data/data.csv").then((csvData, err) => {
   if (err) throw err;
 
   // parse data
