@@ -204,13 +204,11 @@ d3.csv("assets/data/data.csv").then((csvData, err) => {
 
   // append x axis
   var xAxis = chartGroup.append("g")
-    .classed("x-axis", true)
     .attr("transform", `translate(0, ${height})`)
     .call(bottomAxis);
 
   // append y axis
   var yAxis = chartGroup.append("g")
-    .classed("y-axis", true)
     .call(leftAxis);
 
   // append initial circles
@@ -234,7 +232,7 @@ d3.csv("assets/data/data.csv").then((csvData, err) => {
     .attr('y', d => yLinearScale(d[chosenYAxis]))
     .attr('dy', 3)
     .attr('font-size', '7px')
-    .text(function(d){return d.abbr});
+    .text(d => d.abbr);
 
   // Create group for three x-axis labels
   var xlabelsGroup = chartGroup.append("g")
